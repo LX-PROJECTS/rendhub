@@ -8,10 +8,10 @@ class ShadowExtension extends ThemeExtension<ShadowExtension> {
 
   @override
   ThemeExtension<ShadowExtension> copyWith(
-      {BoxShadow? primary, BoxShadow? secondery}) {
+      {BoxShadow? primary, BoxShadow? secondary}) {
     return ShadowExtension(
         primary: primary ?? this.primary,
-        secondary: secondery ?? this.secondary);
+        secondary: secondary ?? this.secondary);
   }
 
   @override
