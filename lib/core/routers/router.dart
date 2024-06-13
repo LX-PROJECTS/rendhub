@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rent_hub/core/widgets/bottom_nav/bottom_nav_widget.dart';
 import 'package:rent_hub/features/ads/view/pages/add_product_page.dart';
@@ -19,15 +20,11 @@ import 'package:rent_hub/features/favorites/view/pages/favorites_page.dart';
 import 'package:rent_hub/features/payment/pages/add_bank_ac_details_page.dart';
 import 'package:rent_hub/features/payment/pages/payment_failed_page.dart';
 import 'package:rent_hub/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final router = GoRouter(
   navigatorKey: MyApp.navigatorKey,
   initialLocation: SplashPage.routePath,
-  // initialLocation: OnboardingPages.routePath,
-  // redirect: (context, state) {
-  //   // TODO : rediretion user status
-  //   return '';
-  // },
   routes: [
     GoRoute(
       path: SplashPage.routePath,
@@ -39,6 +36,16 @@ final router = GoRouter(
       path: OnboardingPages.routePath,
       builder: (context, state) {
         return OnboardingPages();
+      },
+      redirect: (context, state) async {
+        // get instance shared if user is logged
+        final perf = await SharedPreferences.getInstance();
+
+        return FirebaseAuth.instance.currentUser != null
+            ? BottomNavWidget.routePath
+            : perf.getBool('isLogged') ?? false
+                ? LoginPage.routePath
+                : null;
       },
     ),
     GoRoute(

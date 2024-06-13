@@ -8,6 +8,7 @@ import 'package:rent_hub/features/authentication/domain/use_cases/authentication
 import 'package:rent_hub/features/authentication/domain/use_cases/authentication_use_cases/signin_with_otp_credential_usecase.dart';
 import 'package:rent_hub/features/authentication/domain/use_cases/authentication_use_cases/verify_phone_number_use_case.dart';
 import 'package:rent_hub/features/authentication/view/pages/create_account_page.dart';
+import 'package:rent_hub/features/authentication/view/pages/login_page.dart';
 import 'package:rent_hub/features/authentication/view/pages/otp_verification_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,10 +43,7 @@ class Authentication extends _$Authentication {
       state = state.copyWith(isLoading: false);
 
       // navigate otp page
-      Future.sync(() {
-        // TODO: complete chek it
-        context.pushReplacement(OtpVerificationScreen.routePath);
-      });
+      context.pushReplacement(OtpVerificationScreen.routePath);
     } on BaseException catch (e) {
       state = state.copyWith(isLoading: false);
 
@@ -74,11 +72,8 @@ class Authentication extends _$Authentication {
 
         // if user is logged push home page
         if (userCredential.user != null) {
-          Future.sync(() {
-            // TODO: complete  check it
-            //? navigate home page
-            context.pushReplacement(CreateAccountPage.routePath);
-          });
+          //? navigate home page
+          context.pushReplacement(CreateAccountPage.routePath);
         } else {
           Future.sync(
             () => ErrorSnackBar(
@@ -114,6 +109,9 @@ class Authentication extends _$Authentication {
 
     try {
       await LogOutUseCase()();
+
+      // navigate to login page
+      context.go(LoginPage.routePath);
 
       state = state.copyWith(isLoading: false);
     } on BaseException catch (e) {
