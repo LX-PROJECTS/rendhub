@@ -28,78 +28,81 @@ class LoginPage extends HookConsumerWidget {
     final alertConsts = ref.watch(loginPageAlertBoxConstantsProvider);
 
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(context.spaces.space_200),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(ref.watch(imageConstantsProvider).imgOtpGirl),
-              SizedBox(
-                height: context.spaces.space_100,
-              ),
-              Text(
-                constants.txtHeading,
-                style: context.typography.h2SemiBold,
-              ),
-              SizedBox(
-                height: context.spaces.space_100,
-              ),
-              Text(
-                constants.txtSubHeding,
-                style: context.typography.h3,
-              ),
-              SizedBox(
-                height: context.spaces.space_100,
-              ),
-              IntlPhoneField(
-                controller: phoneNumberController,
-                initialCountryCode: 'IN',
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  labelText: constants.txtPhoneNo,
-                  contentPadding: EdgeInsets.only(
-                    bottom: context.spaces.space_200,
-                  ),
+      body: Padding(
+        padding: EdgeInsets.all(context.spaces.space_200),
+        child: Column(
+          children: [
+            Spacer(),
+            SvgPicture.asset(
+              ref.watch(imageConstantsProvider).imgOtpGirl,
+              width: 220,
+            ),
+            SizedBox(
+              height: context.spaces.space_100,
+            ),
+            Text(
+              constants.txtHeading,
+              style: context.typography.h2SemiBold,
+            ),
+            SizedBox(
+              height: context.spaces.space_100,
+            ),
+            Text(
+              constants.txtSubHeding,
+              style: context.typography.body,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: context.spaces.space_100,
+            ),
+            IntlPhoneField(
+              controller: phoneNumberController,
+              initialCountryCode: 'IN',
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                labelText: constants.txtPhoneNo,
+                contentPadding: EdgeInsets.only(
+                  bottom: context.spaces.space_200,
                 ),
-                onCountryChanged: (country) {
-                  // add country code
-                  ref.read(coutryCodeProvider.notifier).state =
-                      '+${country.dialCode}';
-                },
               ),
-              MainBtnWidget(
-                onTap: () {
-                  // alert box for edit number or continue
-                  if (phoneNumberController.text.isNotEmpty &&
-                      phoneNumberController.text.length == 10) {
-                    showAlertDialog(
-                      context: context,
-                      titile: alertConsts.txtHeading,
-                      subtitile: alertConsts.txtSubHeading,
-                      phoneNumber:
-                          "${ref.read(coutryCodeProvider)} ${phoneNumberController.text}",
-                      editButtonText: alertConsts.txteditBtn,
-                      continueButtonText: alertConsts.txtcontinueBtn,
-                      editButtononPressed: () {
-                        Navigator.pop(context);
-                      },
-                      continueButtononPressed: () {
-                        // verify phone number
-                        ref
-                            .read(authenticationProvider.notifier)
-                            .verifyPhoneNumber(
-                              phoneNumber:
-                                  "${ref.read(coutryCodeProvider)}${phoneNumberController.text}",
-                            );
-                      },
-                    );
-                  }
-                },
-                btnTxt: constants.txtOtpBtn,
-              ),
-            ],
-          ),
+              onCountryChanged: (country) {
+                // add country code
+                ref.read(coutryCodeProvider.notifier).state =
+                    '+${country.dialCode}';
+              },
+            ),
+            MainBtnWidget(
+              onTap: () {
+                // alert box for edit number or continue
+                if (phoneNumberController.text.isNotEmpty &&
+                    phoneNumberController.text.length == 10) {
+                  showAlertDialog(
+                    context: context,
+                    titile: alertConsts.txtHeading,
+                    subtitile: alertConsts.txtSubHeading,
+                    phoneNumber:
+                        "${ref.read(coutryCodeProvider)} ${phoneNumberController.text}",
+                    editButtonText: alertConsts.txteditBtn,
+                    continueButtonText: alertConsts.txtcontinueBtn,
+                    editButtononPressed: () {
+                      Navigator.pop(context);
+                    },
+                    continueButtononPressed: () {
+                      // verify phone number
+                      ref
+                          .read(authenticationProvider.notifier)
+                          .verifyPhoneNumber(
+                            phoneNumber:
+                                "${ref.read(coutryCodeProvider)}${phoneNumberController.text}",
+                          );
+                    },
+                  );
+                }
+              },
+              btnTxt: constants.txtOtpBtn,
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );

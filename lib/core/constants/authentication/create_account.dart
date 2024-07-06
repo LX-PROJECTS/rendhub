@@ -8,6 +8,7 @@ class CreateAccountConstant {
   final txtHintName = "Enter Your Name ";
   final txtSubtitle = "This name will be visible to all other users";
   final txtbtn = "CREATE";
+  final txtError = "Something went wrong";
 }
 
 @riverpod
